@@ -17,43 +17,281 @@
 		<!-- Sidebar -->
 			<section id="sidebar">
 			
-			<img src="images/picture.png" class="wrapper center">
-			<h3 class="wrapper center">Akshati Vaishnav </h1>
-				<div class="inner">
-					
-					<nav>
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="lab1.html">Lab 1</a></li>
-							<li><a href="lab2.html">Lab 2</a></li>
-							<li><a href="lab3.html">Lab 3</a></li>
-						</ul>
-					</nav>
-				</div>
-			</section>
+				<img src="images/picture.png" class="wrapper center">
+				<h3 class="wrapper center" style="color:#deecff">Akshati
+					Vaishnav </h1>
+					<div class="inner">
+						
+						<nav>
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="lab1.html">Lab 1</a></li>
+								<li><a href="lab2.html">Lab 2</a></li>
+								<li><a href="lab3.html">Lab 3</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
 
 		<!-- Wrapper -->
 			<div id="wrapper">
 					<section id="main" class="wrapper style2">
 						<div class="inner">
 							<h1 class="major">Lab 1</h1>
-							<span class="image fit"><img src="images/pic04.jpg" alt="" /></span>
-							<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique.</p>
-							<p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fersapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique lorem ipsum dolor.</p>
+							<!-- <span class="image fit"><img src="images/pic04.jpg" alt="" /></span> -->
+							<h2 class="major"> Lab 1A</h2>
+							<h3 class="major"> Prelab</h3>
+							<p>I downloaded the Arduino IDE and set it up by incorporating the JSON file (Figure 1).</p>
+							<figure>
+								<img src="images/lab1a_prelab.png" alt="Figure 1">
+								<figcaption>Figure 1</figcaption>
+							</figure> 
+							<h3 class="major"> Lab Tasks</h3>
+							<h5 class="major"> Task 1</h5>
+							<p>I first connected the Artemis board to my computer and selected the COM3 port, which showed the Artemis Nano as a connected board (Figure 2).</p>
+							<figure>
+								<img src="images/lab1a_figure2.png" alt="Figure 2">
+								<figcaption>Figure 2</figcaption>
+							</figure> 
+							<p>After this was done, the Artemis Nano appeared at the top left of the IDE (Figure 3).</p>
+							<figure>
+								<img src="images/lab1a_figure3.png" alt="Figure 3">
+								<figcaption>Figure 3</figcaption>
+							</figure> 
+							<h5 class="major"> Task 2</h5>
+							<p>After the board was loaded into my IDE, I accessed the examples provided, one of which was Blink. Since I was using a Windows computer, I had to change my Baud rate to 9600. </p>
+							<video controls>
+								<source src="videos/lab1a_task2_blink.mp4" type="video/mp4">
+							</video> 
+							<h5 class="major"> Task 3</h5>
+							<p>I ran the Serial example, in which the Serial monitor echos the message it receives. The demo for this is shown in the video below.</p>
+							<video controls>
+								<source src="videos/lab1a_task3_Example04_Serial.mp4" type="video/mp4">
+							</video> 
+							<h5 class="major"> Task 4</h5>
+							<p>I ran the AnalogRead example, in which the Serial monitor prints readings from the temperature sensor on the Artemis board. The demo for this is shown in the video below.</p>
+							<video controls>
+								<source src="videos/lab1a_task4_Example02_AnalogRead.mp4" type="video/mp4">
+							</video> 
+							<h5 class="major"> Task 5</h5>
+							<p>I ran the MicrophoneOutput example, in which the Serial monitor prints frequency readings from the microphone sensor on the Artemis board. </p>
+							<video controls>
+								<source src="videos/lab1a_task5_Example1_MicrophoneOutput.mp4" type="video/mp4">
+							</video> 
+							<h3 class="major"> Discussion</h3>
+							<p>I learned about the steps needed to setup a board and an IDE. I also learned about how to code the Artemis board, as I analyzed various example codes ranging from blinking a LED to reading values from sensors. I faced an issue with not detecting the board; I tried various solutions including reinstalling the CH340 driver, and restarting my IDE. In the end, changing my Artemis board solved the issue.</p>
+							
+							<h2 class="major"> Lab 1B</h2>
+							<h3 class="major"> Prelab</h3>
+							<p>I already had Python and Jupyter installed. I installed the venv module for virtual environments. Next, I activated the virtual environment and installed the necessary numpy packages through the following line: <code> pip install numpy pyyaml colorama nest_asyncio bleak jupyterlab</code>. Next, I started the Jupyter notebook with the Fast Robots codebase, which I downloaded from the course website.</p>
+							<p>
+							ble_arduino code details:
+								<ul><li>UUIDs differentiate the types of data that is sent between Artemis and the computer, and they ensure that I connect to my Artemis.</li>
+								<li>BLEService is a class that is used to create a new BLE service and add/set necessary characteristics</li>
+								<li>BLExCharacteristics are constructors that allow us to work with various data types including strings and floats</li>
+								<li>RobotCommand is a class used when handling a command directed to the robot</li>
+								<li>EString is a class used to handle character arrays</li>
+								<li>handle_command() is a function that handles commands that are received by the laptop</li></ul>
+							Connections.yaml
+								<ul><li>Consists of the MAC address and UUID details related to the Artemis</li></ul>
+							Cmd_types.py and enum CommandTypes
+								<ul><li>Contain names of programmed commands</li></ul>
+							Demo.ipynb
+								<ul><li>Consists of starter python code that can be used to generate UUIDs and understand how to send instructions to the board</li></ul></p>
+
+							<p>To set up the device and the python/Arduino environments, I found the MAC address through the serial monitor, as shown below. I added this MAC address to the connections.yaml file in the artemis_address line.</p>
+							<figure>
+								<img src="images/lab1b_mac_address.png">
+							</figure>
+							<p>I ran the following code to create a new UUID, which I replaced in the BLE_UUID_TEST_SERVICE variable in ble_arduino.ino, and in the ble_service in connections.yaml.</p>
+							<figure>
+								<img src="images/lab1b_uuid.png">
+							</figure>
+							<p>I ran the code below to import necessary into my Jupyter notebook and to connect to my device properly.</p>
+							<figure>
+								<img src="images/lab1b_ble_setup.png">
+							</figure>
+							<h3 class="major"> Lab Tasks</h3>
+
+							<h5 class="major"> Task 1</h5>
+							<p>ECHO reads the string as a character array and then prepends and appends the necessary text. On the Python side, I sent the command over Bluetooth with the data to echo. Then, I read the receive string using my device's UUID.</p>
+							<pre><code class="language-cpp">case ECHO:
+	char char_arr[MAX_MSG_SIZE];
+	// Extract the next value from the command string as a character array
+	success = robot_cmd.get_next_value(char_arr);
+	if (!success)
+		return;
+	tx_estring_value.clear();
+	tx_estring_value.append("Robot says -> ");
+	tx_estring_value.append(char_arr);
+	tx_estring_value.append(" :)");
+	tx_characteristic_string.writeValue(tx_estring_value.c_str());
+	break;</code></pre><figcaption>Codeblock: ECHO command</figcaption>
+							<p></p>
+							<figure>
+								<img src="images/lab1b_figure4.png" alt="Figure 4">
+								<figcaption>Figure 4</figcaption>
+							</figure> 
+
+							<h5 class="major"> Task 2</h5>
+							<p>To program SEND_THREE_FLOATS, I got three values from the input using get_next_value() and stored the result into three variables. The three floats are combined into a transmitted string. On the python side, I sent a command with three floats separated with a pipe symbol and then I read out the string transmitted by the Arduino.</p>
+							<pre><code class="language-cpp">case SEND_THREE_FLOATS:
+	float float_a, float_b, float_c;
+
+	// Extract the next value from the command string as a float
+	success = robot_cmd.get_next_value(float_a);
+	if (!success)
+		return;
+
+	// Extract the next value from the command string as a float
+	success = robot_cmd.get_next_value(float_b);
+	if (!success)
+		return;
+
+	// Extract the last value from the command string as a float
+	success = robot_cmd.get_next_value(float_c);
+	if (!success)
+		return;
+
+	tx_estring_value.clear();
+	tx_estring_value.append("Three Floats: ");
+	tx_estring_value.append(float_a);
+	tx_estring_value.append(", ");
+	tx_estring_value.append(float_b);
+	tx_estring_value.append(", ");
+	tx_estring_value.append(float_c);
+	tx_characteristic_string.writeValue(tx_estring_value.c_str());
+
+	break;</code></pre>
+							<p></p>
+							<figure>
+								<img src="images/lab1b_figure5.png" alt="Figure 5">
+								<figcaption>Figure 5</figcaption>
+							</figure> 
+
+							<h5 class="major"> Task 3</h5>
+							<p>In order to write GET_TIME_MILLIS, I called the millis() function which told me the time in ms. Then, I prepared and transmitted the string to be received by the Python code.</p>
+							<pre><code class="language-cpp">case GET_TIME_MILLIS:
+	int time_milli = millis();
+	tx_estring_value.clear();
+	tx_estring_value.append("T: ");
+	tx_estring_value.append(time_milli);
+	tx_characteristic_string.writeValue(tx_estring_value.c_str());
+	break;</code></pre>
+							<p></p>
+							<figure>
+								<img src="images/lab1b_figure6.png">
+								<figcaption>Figure 6</figcaption>
+							</figure> 
+
+							<h5 class="major"> Task 4</h5>
+							<p>I created a notification handler which converts the received byte array into a string and then extracts and stores the time data into an array, as shown below. I started the notification handler and then sent the command GET_TIME_MILLIS to test my handler.</p>
+							<p></p>
+							<figure>
+								<img src="images/lab1b_figure7.png">
+								<figcaption>Figure 7</figcaption>
+							</figure> 
+
+							<h5 class="major"> Task 5</h5>
+							<p>I created GET_TIME_MILLIS_LOOP which gets the time in milliseconds and sends it to the notification handler. In two seconds, a total of 68 float values were collected. Since a float is 4 bytes long, the data transfer rate is 68*4/2 = 136 bytes/second.</p>
+							<pre><code class="language-cpp">case GET_TIME_MILLIS_LOOP:
+{
+	float start = millis();
+	while(millis()-start < 2000) {
+		tx_estring_value.clear();
+		tx_estring_value.append("T: ");
+		tx_estring_value.append((float)millis());
+		tx_characteristic_string.writeValue(tx_estring_value.c_str());
+	}
+}
+break;</code></pre><figcaption></figcaption>
+							<p></p>
+							<figure>
+								<img src="images/lab1b_figure8.png">
+								<figcaption>Figure 8</figcaption>
+							</figure> 
+
+							<h5 class="major"> Task 6</h5>
+							<p>I first changed GET_TIME_MILLIS_LOOP to store values into a global array of size 250. Then, I added SEND_TIME_DATA to loop over the global array and send the data to my laptop.</p>
+							<pre><code class="language-cpp">#define MAX_CNT 250
+float timestamps[MAX_CNT] = {-1};
+case GET_TIME_MILLIS_LOOP:
+	{
+		float start = millis();
+		int cnt = 0;
+		while(millis()-start < 2000) {
+			if(cnt >= MAX_CNT) {
+				break;
+			}
+			timestamps[cnt] = (float)millis();
+			cnt+=1;
+		}
+	}
+	break;
+
+case SEND_TIME_DATA:
+	{
+		for(int i = 0; i < MAX_CNT; i++) {
+			if(timestamps[i] == -1) {
+				break;
+			}
+			tx_estring_value.clear();
+			tx_estring_value.append("T: ");
+			tx_estring_value.append(timestamps[i]);
+			tx_characteristic_string.writeValue(tx_estring_value.c_str());
+		}
+	}
+	break;</code></pre><figcaption></figcaption>
+							<p></p>
+							<video controls>
+								<source src="videos/lab1b_task6.mp4" type="video/mp4">
+							</video> 
+
+							<h5 class="major"> Task 7</h5>
+							<p>I added another array to collect temperature data. In GET_TEMP_READINGS, I filled the time and temperature data at the same time, then, I sent these readings to the handler, which stored the data into two lists. I also added another notification handler to handle the temperature readings.</p>
+							<pre><code class="language-cpp">float tempstamps[MAX_CNT] = {-1};
+case GET_TEMP_READINGS:
+	{
+		float start = millis();
+		int cnt = 0;
+		while(millis()-start < 2000) {
+			if(cnt >= MAX_CNT) {
+				break;
+			}
+			timestamps[cnt] = (float)millis();
+			tempstamps[cnt] = (float)getTempDegC();
+			cnt+=1;
+		}
+	
+		for(int i = 0; i < cnt-1; i++) {
+			tx_estring_value.clear();
+			tx_estring_value.append("T: ");
+			tx_estring_value.append(timestamps[i]);
+			tx_estring_value.append(" | C: ");
+			tx_estring_value.append(tempstamps[i]);
+			tx_characteristic_string.writeValue(tx_estring_value.c_str());
+		}
+	}
+	break;</code></pre><figcaption></figcaption>
+							<p></p>
+							<figure>
+								<img src="images/lab1b_figure9.png">
+								<figcaption>Figure 9: notification handler</figcaption>
+							</figure> 
+
+							<h5 class="major"> Task 8</h5>
+							<p>The first method produces real-time data so the data can be used to perform real-time decisions, but we receive significantly less data which has lower granularity. The second method produces a lot more data with higher granularity, but there is a delay between the time that the data is collected and when it is received so the data is better used for future analysis. 
+							</p>
+							<p>If we just store 4-byte floats, the Artemis board will run out of memory after sending 384000/4 = 96000 floats.</p>
+
+							<h3 class="major"> Discussion</h3>
+							<p>I learned how to write commands that can be transmitted through Bluetooth. I also learned how to write notification handlers, which can be useful to avoid manually printing messages. I mostly faced memory leaks issue in my arrays, which were solved through debugging by ensuring that I was not accessing incorrect locations in memory.</p>
+							<h3>Word count: 998 </h3><p>[excluding code snippets]</p>
 						</div>
 					</section>
 
 				
 			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper style1-alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</div>
-			</footer>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>

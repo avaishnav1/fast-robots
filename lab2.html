@@ -46,12 +46,8 @@
 							</figure> 
 							<p>Then, I pushed the Example code for the IMU Library. As expected, moving the gyroscope and accelerometer around changed the recorded values, as shown by the videos below (enlarge the video to see the values). The gyroscope raw data consists of the rate of rotation; so if the IMU is not moving, the rate of rotation is zero, and therefore the gyroscope raw data is a 0. How the values change based on the rotation are described in the first video below.</p>
 							<p>When placed on a flat surface, the accelerometer raw data shows a high z-value and zero x- and y-values. This is due to the accelerometer measuring the acceleration due to gravity. The motion of the accelerometer and its correlation to the raw data is explained in the second video below.</p>
-							<video controls>
-								<source src="videos/lab2_gyro_setup.mp4" type="video/mp4">
-							</video> 
-							<video controls>
-								<source src="videos/lab2_accel_setup.mp4" type="video/mp4">
-							</video> 
+							<iframe src="https://drive.google.com/file/d/1usP11JfYH7LV54p-EtImjTmPlfzeFeCP/preview" width="640" height="480" allow="autoplay"></iframe>
+							<iframe src="https://drive.google.com/file/d/1_cstpuujRJjeJ_VY-c4snWPau0wzNsKx/preview" width="640" height="480" allow="autoplay"></iframe>
 							<p>In this Example01_Basics code, the AD0_VAL is an important variable that allows the user to change the last bit of the device's I2C address. This is especially useful when we are working with multiple IMUs and want to communicate with the IMUs using I2C. Currently, it is set to 1 since there is just one IMU, but if we add another IMU, that IMU's AD0_VAL should be changed to 0 so its address is different.</p>
 
 							<h2 class="major"> Accelerometer</h2>

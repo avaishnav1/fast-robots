@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>ECE4160: Fast Robots</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Sidebar -->
+			<section id="sidebar">
+			
+				<img src="images/picture.png" class="wrapper center">
+				<h3 class="wrapper center" style="color:#deecff">Akshati
+					Vaishnav </h1>
+					<div class="inner">
+						
+						<nav>
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="lab1.html">Lab 1</a></li>
+								<li><a href="lab2.html">Lab 2</a></li>
+								<li><a href="lab3.html">Lab 3</a></li>
+								<li><a href="lab4.html">Lab 4</a></li>
+								<li><a href="lab5.html">Lab 5</a></li>
+								<li><a href="lab6.html">Lab 6</a></li>
+								<li><a href="lab7.html">Lab 7</a></li>
+								<li><a href="lab8.html">Lab 8</a></li>
+								<li><a href="lab9.html">Lab 9</a></li>
+								<li><a href="lab10.html">Lab 10</a></li>
+								<li><a href="lab11.html">Lab 11</a></li>
+								<li><a href="lab12.html">Lab 12</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+					<section id="main" class="wrapper style2">
+						<div class="inner">
+							<h1 class="major">Lab 4</h1>
+							<h2 class="major">Prelab</h2>
+							<h3>Wiring Diagram</h3>
+							<p>Figure 1 below shows how I chose to wire my complete system. At a high level, I parallel-coupled the input and outputs of my motor drivers to allow two channels to drive each motor, allowing me to deliver twice the current to each motor. I chose to use pins A0, A1, A4, and A5 to connect my motor drivers' inputs. The outputs of the motor driver would be to the motors themselves. The motors would be powered by the 850 mAh battery, while the Artemis would be powered by the 650 mAh battery. The motor drivers were powered by a battery with a higher power rating due to the fact that the current draw for the motors is higher than what is required by the Artemis.</p>
+							<figure>
+								<img src="images/lab4_wiring.png" height="500">
+								<figcaption>Figure 1</figcaption>
+							</figure>
+							<h2 class="major">Lab Tasks</h2>
+							<p style="color: red;">
+								Short video of wheels spinning as expected on the side (including code snippet it's running on).
+								Short video of both wheels spinning (with battery driving the motor drivers).
+							</p>
+							<h3>Testing my Soldering by Spinning the Wheels</h3>
+							<p>A large majority of this lab involved soldering the necessary components together, such as the motor drivers and the batteries. When working with such intricate systems, it is advisable to take an incremental approach. So, I started by soldering one motor driver's input pins to the Artemis and connecting the output pins to an oscilloscope. Instead of connecting the VIN to the battery, I connected it to a power supply. The datasheet for the motor driver says that it can accept voltages in the range of 2.7V to 10V. I chose the voltage to be 3.7V, which was within the range. </p>
+							<p>Next, I flashed the Artemis with code to vary the PWM signal, in hopes to see the output waveform on the oscilloscope to change. For just one motor driver, the waveform below was seen.</p>
+							<video controls>
+								<source src="videos/lab4_one_motor_pwm_vary.MOV" type="video/mp4">
+							</video> 
+							<p>After this was successful, I soldered my second motor driver in a similar fashion and recorded the PWM signals. The code for varying the PWM signal is shown in Figure 2 below.</p>
+							<figure>
+								<img src="images/lab4_pwm_vary_code.png">
+								<figcaption>Figure 2</figcaption>
+							</figure>
+							<p>For two motors, the waveform below was seen.</p>
+							<video controls>
+								<source src="videos/lab4_two_motors_pwm_vary.MOV" type="video/mp4">
+							</video> 
+							<p>Overall, to perform this exercise, my setup is shown in Figure 3 below.</p>
+							<figure>
+								<img src="images/lab4_pwm_vary_circuit.JPG" height="300">
+								<img src="images/lab4_pwm_vary_complete_setup.JPG" height="300">
+								<figcaption>Figure 3</figcaption>
+							</figure>
+							<p>After I had ensured that my soldering was done well, I connected the outputs of my motor drivers to the motors. The setup function looked the same, as I simply initialized my GPIOs (A0, A1, A4, A5) as output pins. The loop function is shown in Figure 4 and it moves one set of wheels forwards and then backwards, as shown by the video below. A similar code was run for the second set of wheels, except the GPIOs were now 4 and 5.</p>
+							<figure>
+								<img src="images/lab4_motor_side_run.png">
+								<figcaption>Figure 4</figcaption>
+							</figure>
+							<p>One set of wheels moving:</p>
+							<video controls>
+								<source src="videos/lab4_one_motor_moving_back_forth.MOV" type="video/mp4">
+							</video> 
+							<p>The other set of wheels moving:</p>
+							<video controls>
+								<source src="videos/lab4_other_motor_moving_back_forth.MOV" type="video/mp4">
+							</video> 
+							<p>Lastly, I added code for both wheels moving together and connected a battery to the Artemis and the motor drivers as well:</p>
+							<video controls>
+								<source src="videos/lab4_both_wheels_moving_battery.MOV" type="video/mp4">
+							</video> 
+
+							<h3>Components in the Car</h3>
+							<p>Next, I secured the car as shown in the pictures below.</p>
+							<figure>
+								<img src="images/lab4_car_up.JPG" height="500">
+								<img src="images/lab4_car_down.JPG" height="500">
+								<figcaption>Figure 5</figcaption>
+							</figure>
+
+							<h3>Lower Limit PWM Value</h3>
+							<p>When I was initially testing the motors, I set the PWM value to around 150, as it was around the middle of the 0-255 range. I realized that with this value, the robot zoomed across the floor, as shown in the video below.</p>
+							<video controls>
+								<source src="videos/lab4_pwm_150.MOV" type="video/mp4">
+							</video> 
+							<p>So, I incrementally decreased the PWM value. Overall, I noticed that a PWM value of 40 allows the robot to run without having to push it to start from rest. If I went lower, I had to push the robot a little, which would give it the initial force it required to continue moving. If I went higher, the robot would simply move faster. A video of the PWM value of 40 and after calibration is shown in the section below.</p>
+
+							<h3>Calibration</h3>
+							<p>I noticed that my robot tended to steer to the right when placed on a straight line. This meant that my motors were not spinning at the same rate. In order to accomodate for this behavior, I increased the PWM value to be around 8 units higher for the right wheel than the left wheel, which is a calibration factor of 1.2x. This allowed my robot to drive in a more straight path than before. The video below shows the robot's motion after being calibrated. Note that I aligned the robot's left wheel on the line and the robot ends up just slightly to the right of the line on the ground.</p>
+							<video controls>
+								<source src="videos/lab4_straight_line.MOV" type="video/mp4">
+							</video> 
+							<p>The code describing this behavior is shown below.</p>
+							<figure>
+								<img src="images/lab4_calibration_code.png">
+								<figcaption>Figure 6</figcaption>
+							</figure>
+							
+
+							<h3>Open Loop Control</h3>
+							<p>Lastly, I wanted to control the robot through issuing commands for it to go straight, and make a few turns, then continue to rotate. I looped this behavior in a while loop that ran for a certain amount of time, as shown in the code snippet below. To ensure that the robot stopped, I added in a few milliseconds where the PWM would be set to 0.</p>
+							<figure>
+								<img src="images/lab4_open_loop.png">
+								<figcaption>Figure 7. Note that the loop() function was empty here.</figcaption>
+							</figure>
+							<p>Below is a video demonstrating how this control ended up working.</p>
+							<video controls>
+								<source src="videos/lab4_open_loop_control.MOV" type="video/mp4">
+							</video> 
+
+							<h3>Code Reorganization</h3>
+							<p>After completing the majority of this lab, I realized that it would be useful to have functions describing movement. I debated on whether I wanted a function for each movement and turn, but I ended up creating a function that simplified handling four pin outputs and combined the four repeated lines (along with a delay line) into one using the function shown below.</p>
+							<figure>
+								<img src="images/lab4_run_motors_function.png">
+								<figcaption>Figure 7. Note that the loop() function was empty here.</figcaption>
+							</figure>
+
+							<h2>References</h2>
+							<p><ol>
+								<li>For reference on how others have wired their systems, I refered to Nila Narayan's webpage.</li>
+							</ol></p>
+						</div>
+					</section>
+
+				
+			</div>
+
+		<!-- Footer -->
+			<!-- <footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer> -->
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

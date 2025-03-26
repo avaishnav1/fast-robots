@@ -47,6 +47,84 @@
 					<section id="main" class="wrapper style2">
 						<div class="inner">
 							<h1 class="major">Lab 7</h1>
+							<h2>Estimating Drag and Momentum</h2>
+							<p>In order to estimate my robot's drag and momentum, I first gathered data from my robot's TOF sensor. I had data stored from when I did Lab 5, but I worked heavily on improving my code formatting during Lab 6, which is why I recollected my data. Furthermore, I didn't really choose to do PID when I was collecting my data, since PID would continuously change my PWM values. Instead, I set my PWM value to be 200 (my maximum possible PWM value is 220, so I went slightly lower than that). Then, when my robot was sufficiently close to  the wall, I set the PWM to 0, so that the robot would stop and I wouldn't have to truncate my data. I also had to do this as my data using PID was also quite noisy. I had to experiment with this for many hours and the best data I received was the following:</p>
+							<figure>
+								<img src="images/lab7_figure1_collected_position_data.png">
+								<figcaption>Figure 1. Collected ToF Position Data</figcaption>
+							</figure>
+							<p>Next, I calculated the derivative of the position to get the velocity data, which I could use to calulate the rise time (time to get to the max velocity) of my robot. The derivative was calulated using a simple difference between the distance values and the time values and then dividing them: v = Δx/Δt. The resulting velocity graph is shown in Figure 2 below. One thing to note is that the velocity values are negative. This is because I used the ToF sensor raw data to calculate the velocity, in which case the recorded position decreases over time as the robot proceeds towards the wall, and therefore the change in position is negative while the change in time is positive; thus, the velocity is calculated as a negative value.</p>
+							<figure>
+								<img src="images/lab7_figure2_velocity_data.png">
+								<figcaption>Figure 2. Calculated Velocity Data</figcaption>
+							</figure>
+							<p>After I had collected this data, I wanted to fit an exponential decay model to my data. I chose this specific model because my robot has an physical maximum velocity that it reaches, which can be represented by the asymptote of the exponential decay model. The parameters I received were <code>A = -3.412</code> and <code>B = 0.83</code>.</p>
+							<figure>
+								<img src="images/lab7_figure3_calculating_params.png" height="200">
+								<figcaption>Figure 3. Calculating Exponential Decay parameters</figcaption>
+							</figure>
+							<p>Below is a graph of how my data was fit to an exponential curve with the parameters above. I know that the data doesn't seem to decay quite well, but I decided to stick with the data I received from this result, as I had already spent multiple hours trying to collect data and this was the best one that I had received. If the fit doesn't end up working on the Python model, I decided that I will recollect the data.</p>
+							<figure>
+								<img src="images/lab7_figure4_exponential_fit.png">
+								<figcaption>Figure 4. Exponential Fit</figcaption>
+							</figure>
+							<p>Lastly, I used the fitted parameters to calculate the 80% rise time, which was then used to calculate the drag and momentum as shown below.</p>
+							<figure>
+								<img src="images/lab7_figure5_calculating_d_and_m.png" height="300">
+								<figcaption>Figure 5. Calculating drag and momentum</figcaption>
+							</figure>
+							<p>My final drag was <code>0.333</code> and momentum was <code>0.401</code>.</p>
+							<h2>Kalman Filtering in Python</h2>
+							<p>The Kalman Filter in Python was created through referencing Lecture slides and Stephan Wagner's Lab 7. Figure 6 shows the overall code for this implementation, which I will describe in further detail.</p>
+							<figure>
+								<img src="images/lab7_figure6_kalman_filter_python.png" height="600">
+								<figcaption>Figure 6. Python Code for KF</figcaption>
+							</figure>
+							<p>First, I combined Newton's Second Law and the relation between Force and Drag using matrices to get the equation in Figure 7 below. In my code, I set A and B as labeled in the figure, but with the numbers for drag and momentum.</p>
+							<figure>
+								<img src="images/lab7_figure7_matrices.png" height="300">
+								<figcaption>Figure 7. Initial Formulas</figcaption>
+							</figure>
+							<p>Then, I discretize the A and B matrices (called Ad and Bd, respectively) using the sample time calculated from the collected time data. The formula for doing this was derived in class and is shown in Figure 8 below.</p>
+							<figure>
+								<img src="images/lab7_figure8_discretizing_matrices.png" height="300">
+								<figcaption>Figure 8. Discretized Matrices</figcaption>
+							</figure>
+							<p>Next, I initialized my x matrix, which stored results for kalman filtering, to be the initial collected data. Then, I calculated my sigma (σ1, σ2, σ3, σu, σz) values, which represent the confidence in the measurements and the model. I set up my Kalman Filter function with both the update and prediction steps. Lastly, I updated my Kalman filter for every time step.</p>
+							<h2>Kalman Filter on the Robot</h2>
+							<p>Using the parameters calculated in the part above, I implemented the Kalman filter in Arduino. My code is quite similar to the Python code in terms of organization, except that I was handling data in real-time, instead of using stored arrays. The final code is shown in Figure 9 below.</p>
+							<figure>
+								<img src="images/lab7_figure9_arduino_code.png" height="1000">
+								<figcaption>Figure 9. Arduino Code</figcaption>
+							</figure>
+							<p>One other part that I added in this lab (as shown in the code above) was the derivative term to my PI controller to complete my PID control! The more time I spent on this robot, the more unsatisfied I became with my oscillations. Through testing, I found my Kd to be best around 1-2. </p>
+							<p>I also had to re-tune all of my PID control parameters since I was now using Kalman filter data. My Kp was around 0.07 to 0.1 and my Ki was around 0 to 0.0001. My notification handler on the Python side had a lot more parameters now and is shown below.</p>
+							<figure>
+								<img src="images/lab7_figure10_python_notif_handler.png" height="300">
+								<figcaption>Figure 10. Python Notification Handler</figcaption>
+							</figure>
+							<h3>Results</h3>
+							<p>Here are some of my results from running the Kalman Filter! Note that I had to perform some tuning to my sigma values (decreased the sigma_3 to be 5) in order to get improved results; otherwise I received data like in Figure 11.</p>
+							<figure>
+								<img src="images/lab7_tuning_issues.png">
+								<figcaption>Figure 11. </figcaption>
+							</figure>
+							<h4>Result 1</h4>
+							<figure>
+								<img src="images/lab7_g1_dist_v_time.png">
+								<img src="images/lab7_g1_dist_v_time-2.png">
+								<img src="images/lab7_g1_pwm_v_time.png">
+								<iframe src="https://drive.google.com/file/d/1tIdrsMaxvsuBjmrh-vbjKd6ImW5OfT5J/preview" width="640" height="480" allow="autoplay"></iframe>
+								<figcaption>Figure 12. Kalman Filter Video 1.</figcaption>
+							</figure>
+							<h4>Result 2</h4>
+							<figure>
+								<img src="images/lab7_g3_dist_v_time.png">
+								<img src="images/lab7_g3_pwm_v_time.png">
+								<iframe src="https://drive.google.com/file/d/1YKWas0_v1oFVe1xg-NB5FQmjDgCh4t1d/preview" width="640" height="480" allow="autoplay"></iframe>
+								<figcaption>Figure 13. Kalman Filter Video 2.</figcaption>
+							</figure>
+							<p>I think I definitely could have spent more time tuning my PID parameters better, but I didn't get too much time to work on that as implementing the Kalman filter properly took quite some time. I hope to improve my parameter tuning soon though!</p>
 						</div>
 					</section>
 

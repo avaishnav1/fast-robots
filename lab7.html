@@ -47,6 +47,8 @@
 					<section id="main" class="wrapper style2">
 						<div class="inner">
 							<h1 class="major">Lab 7</h1>
+							<h2>Overview</h2>
+							<p>The purpose of this lab was to implement a Kalman Filter to improve the accuracy of the robot's distance measurements from the ToF sensor, therefore allowing the robot to approach a wall faster. We first defined a Python model with collected sensor data, whose values were then used as initial estimates for the actual Artemis Nano code. Kalman Filtering involves prediction and update steps, where we first predict data based on the given model model and perform an update through newly collected data to serve as another starting point. Through this lab, I learned more about Kalman filtering, specifically about the steps involved and the mathematical reasoning behind how it works.</p>
 							<h2>Estimating Drag and Momentum</h2>
 							<p>In order to estimate my robot's drag and momentum, I first gathered data from my robot's TOF sensor. I had data stored from when I did Lab 5, but I worked heavily on improving my code formatting during Lab 6, which is why I recollected my data. Furthermore, I didn't really choose to do PID when I was collecting my data, since PID would continuously change my PWM values. Instead, I set my PWM value to be 200 (my maximum possible PWM value is 220, so I went slightly lower than that). Then, when my robot was sufficiently close to  the wall, I set the PWM to 0, so that the robot would stop and I wouldn't have to truncate my data. I also had to do this as my data using PID was also quite noisy. I had to experiment with this for many hours and the best data I received was the following:</p>
 							<figure>

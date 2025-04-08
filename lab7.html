@@ -58,17 +58,17 @@
 								<img src="images/lab7_figure2_velocity_data.png">
 								<figcaption>Figure 2. Calculated Velocity Data</figcaption>
 							</figure>
-							<p>After I had collected this data, I wanted to fit an exponential decay model to my data. I chose this specific model because my robot has an physical maximum velocity that it reaches, which can be represented by the asymptote of the exponential decay model. The parameters I received were <code>A = -3.412</code> and <code>B = 0.83</code>.</p>
+							<p>After I had collected this data, I wanted to fit an exponential decay model to my data. I chose this specific model because my robot has an physical maximum velocity that it reaches, which can be represented by the asymptote of the exponential decay model. The parameters I received for the exponential decay formula, <code>y = A*(1-e^(-bx))</code>, were <code>A = -3.412</code> and <code>b = 0.83</code>.</p>
 							<figure>
 								<img src="images/lab7_figure3_calculating_params.png" height="200">
 								<figcaption>Figure 3. Calculating Exponential Decay parameters</figcaption>
 							</figure>
-							<p>Below is a graph of how my data was fit to an exponential curve with the parameters above. I know that the data doesn't seem to decay quite well, but I decided to stick with the data I received from this result, as I had already spent multiple hours trying to collect data and this was the best one that I had received. If the fit doesn't end up working on the Python model, I decided that I will recollect the data.</p>
+							<p>Below is a graph of how my data was fit to an exponential curve with the parameters above. I know that the data doesn't seem to decay quite well, but I decided to stick with the data I received from this result, as I had already spent multiple hours trying to collect data and this was the best one that I had received. If the fit doesn't end up working on the Python or Arduino model, I decided that I will recollect the data.</p>
 							<figure>
 								<img src="images/lab7_figure4_exponential_fit.png">
 								<figcaption>Figure 4. Exponential Fit</figcaption>
 							</figure>
-							<p>Lastly, I used the fitted parameters to calculate the 80% rise time, which was then used to calculate the drag and momentum as shown below.</p>
+							<p>Lastly, I used the fitted parameters to calculate the 80% rise time, which was then used to calculate the drag and momentum as shown below. I used the 80% rise time and not the 100% rise time because that represents the asymptote, which the robot does not hit. Instead, I used the 80% rise time since it was closer to my collected data and was not infinite. The drag at 80% rise time can be calculated by <code>d = 1/(velocity at 80% rise time)</code>, and the momentum at 80% rise time can be calculated by <code>m = -d*(80% rise time)/(ln(1-80%))</code>, where d is the drag.</p>
 							<figure>
 								<img src="images/lab7_figure5_calculating_d_and_m.png" height="300">
 								<figcaption>Figure 5. Calculating drag and momentum</figcaption>
@@ -80,17 +80,17 @@
 								<img src="images/lab7_figure6_kalman_filter_python.png" height="600">
 								<figcaption>Figure 6. Python Code for KF</figcaption>
 							</figure>
-							<p>First, I combined Newton's Second Law and the relation between Force and Drag using matrices to get the equation in Figure 7 below. In my code, I set A and B as labeled in the figure, but with the numbers for drag and momentum.</p>
+							<p>First, I combined Newton's Second Law and the relation between Force and Drag using matrices to get the equation in Figure 7 below. In my code, I set A and B as labeled in the figure, but replaced the variables with the numbers for drag and momentum which were calculated above.</p>
 							<figure>
 								<img src="images/lab7_figure7_matrices.png" height="300">
 								<figcaption>Figure 7. Initial Formulas</figcaption>
 							</figure>
-							<p>Then, I discretize the A and B matrices (called Ad and Bd, respectively) using the sample time calculated from the collected time data. The formula for doing this was derived in class and is shown in Figure 8 below.</p>
+							<p>Then, I discretize the A and B matrices (called Ad and Bd, respectively) using the sample time calculated from the time data collected in the first part of this lab. The formula for doing this was derived in class and is shown in Figure 8 below (the final Ad and Bd matrices are in the last step). This essentially predicted the next position based on the previously found position data.</p>
 							<figure>
 								<img src="images/lab7_figure8_discretizing_matrices.png" height="300">
 								<figcaption>Figure 8. Discretized Matrices</figcaption>
 							</figure>
-							<p>Next, I initialized my x matrix, which stored results for kalman filtering, to be the initial collected data. Then, I calculated my sigma (σ1, σ2, σ3, σu, σz) values, which represent the confidence in the measurements and the model. I set up my Kalman Filter function with both the update and prediction steps. Lastly, I updated my Kalman filter for every time step.</p>
+							<p>Next, I initialized my x matrix, which stored results for kalman filtering, to be the initial collected data. Then, I calculated my sigma (σ1, σ2, σ3, σu, σz) values similar to what I did in the python simulation, which represent the confidence in the measurements and the model. I set up my Kalman Filter function with both the update and prediction steps. Lastly, I updated my Kalman filter for every time step.</p>
 							<h2>Kalman Filter on the Robot</h2>
 							<p>Using the parameters calculated in the part above, I implemented the Kalman filter in Arduino. My code is quite similar to the Python code in terms of organization, except that I was handling data in real-time, instead of using stored arrays. The final code is shown in Figure 9 below.</p>
 							<figure>
@@ -98,7 +98,7 @@
 								<figcaption>Figure 9. Arduino Code</figcaption>
 							</figure>
 							<p>One other part that I added in this lab (as shown in the code above) was the derivative term to my PI controller to complete my PID control! The more time I spent on this robot, the more unsatisfied I became with my oscillations. Through testing, I found my Kd to be best around 1-2. </p>
-							<p>I also had to re-tune all of my PID control parameters since I was now using Kalman filter data. My Kp was around 0.07 to 0.1 and my Ki was around 0 to 0.0001. My notification handler on the Python side had a lot more parameters now and is shown below.</p>
+							<p>I also had to re-tune all of my PID control parameters since I was now using Kalman filter data. My Kp was around 0.07 to 0.1 and my Ki was around 0 to 0.0001. My notification handler on the Python side had a lot more parameters to store now and is shown below.</p>
 							<figure>
 								<img src="images/lab7_figure10_python_notif_handler.png" height="300">
 								<figcaption>Figure 10. Python Notification Handler</figcaption>
@@ -124,6 +124,8 @@
 								<iframe src="https://drive.google.com/file/d/1YKWas0_v1oFVe1xg-NB5FQmjDgCh4t1d/preview" width="640" height="480" allow="autoplay"></iframe>
 								<figcaption>Figure 13. Kalman Filter Video 2.</figcaption>
 							</figure>
+							<h3>Reflection</h3>
+							<p>Overall, I learned a lot about how Kalman Filtering works by implementing it on my robot. I also continued to learn about PID tuning and implementing the Derivative term in PID control.</p>
 							<p>I think I definitely could have spent more time tuning my PID parameters better, but I didn't get too much time to work on that as implementing the Kalman filter properly took quite some time. I hope to improve my parameter tuning soon though!</p>
 						</div>
 					</section>

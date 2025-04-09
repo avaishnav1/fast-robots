@@ -47,6 +47,62 @@
 					<section id="main" class="wrapper style2">
 						<div class="inner">
 							<h1 class="major">Lab 8</h1>
+							<h2>Overview</h2>
+							<p>The purpose of this lab was to program our robot to perform a controlled stunt while recording data. I chose to perform the flip stunt since I thought that would be cooler. I started out with a simple approach and then tried to organize my code to gather more data and make the flip execution faster. Through this lab, I was able to apply my knowledge on code organization, efficient Arduino programming, and ToF sensing, among others, to perform a cool stunt.</p>
+							<h2>Code and Results</h2>
+							<p>My first iteration of the flip code involved only storing the data from the ToF sensor when it was ready. This slowed down the execution of my loop, so I moved the storing of data to be after I measured my ToF data in my final code. Next, I started out by setting my maximum PWM limit to be 200; when I was doing all of my testing in previous labs, I found that setting the PWM value to be any higher resulted in unpredictable behavior (this may have been due to my battery not being charged enough). However, one of the requirements of this lab was to demonstrate how fast we can perform the complete flip, which means that a high PWM value is absolutely necessary. Through performing some more code optimizations and reducing unnecessary repetitive code, I was able to run my robot at the max possible PWM value of 255 both forwards and backwards. Lastly, through various experiments ending poorly, I added multiple break points in my while loop which allowed my robot to stop running in case things go horribly wrong.</p>
+							<p>My final code is shown below.</p>
+							<figure>
+								<img src="images/lab8_flip_code.png" height="600">
+								<figcaption>Figure 1. Final Flip code</figcaption>
+							</figure>
+							<p>As seen in the code above, I used a simple state machine to perform my flip. The robot starts in state 1, where it collects ToF data and moves forward at the highest PWM value of 255. Then, when the ToF data records a distance of less than 0.5m, it changes the state to be 1. When it's in state 1, the robot moves backwards at a PWM value of 255 until the maximum execution time of 3s is up. I started out by just making my robot stop when it reaches the wall, but in this case the flip did not occur fully, which is why I opted to make the wheels suddenly go backwards after sensing a wall.</p>
+							<p>I collected three main pieces of data during these runs. First, I collected the ToF data to analyze how my robot was moving relative to the wall. Next, I collected PWM data to determine the rate at which I was spinning my motors. Lastly, I collected yaw data to be able to tell how my robot rotates. In order to collect yaw data, I used the DMP code from my angular PID control lab. One aspect of using the DMP, which I realized too late, is that it takes a while to process the data. So, there was a delay of about 1.5 seconds from when I actually performed the flip versus when the angle values actually reflected the flip. Therefore, in my graph below, the flip is starting to occur but gets cut out due to this delay. If I had more time, I would work to determine the drift in my gyroscope and eliminate it such that this delay would not occur.</p>
+							<p>A key part of this flip were the weights I attached to the front my robot. I attached two dead batteries along with a small chunk of tungsten (which is extremely dense and thus massive), which allowed my flip to occur quite easily.</p>
+							<h2>Videos</h2>
+							<h3>Video 1: Flips but has a slow execution time of 3.21s for a distance of 2m</h3>
+							<p>This is the version in which my PWM value was 200 and my ToF data collection was happening only when the ToF data updated. I was also not recording Yaw data at this point</p>
+							<iframe src="https://drive.google.com/file/d/1FmGNTQI8RzKN6yDb7Gu0bnS6OpN7qRYN/preview" width="640" height="480" allow="autoplay"></iframe>
+							<figure>
+								<img src="images/lab8-video1-working_dist_vs_time_graph-2.png">
+								<img src="images/lab8-video1-working_pwm_vs_time_graph-2.png">
+								<figcaption>Figure 2. Video 1 graphs (slow sampling)</figcaption>
+							</figure>
+							<p>The PWM graph looks especially weird as I only sampled the PWM when the ToF data was updated.</p>
+
+							<h3>Video 2: Final Flip with execution time of 2.78s for a distance of 2.1m</h3>
+							<iframe src="https://drive.google.com/file/d/1IX1LOKaXtCOChLn3TJXsCQMhMoZOmJx9/preview" width="640" height="480" allow="autoplay"></iframe>
+							<p></p>
+
+							<h3>Video 3: Final Flip with execution time of 2.7 seconds for a distance of 2.1m</h3>
+							<iframe src="https://drive.google.com/file/d/1mA37EHvRO9tlUc7jJEydHzpKw5CM1Rf6/preview" width="640" height="480" allow="autoplay"></iframe>
+							<figure>
+								<img src="images/lab8-video3-working_dist_vs_time_graph-4.png">
+								<img src="images/lab8-video3-working_pwm_vs_time_graph-4.png">
+								<img src="images/lab8-video3-working_angle_vs_time_graph-4.png">
+								<figcaption>Figure 2. Video 3 graphs</figcaption>
+							</figure>
+							<p>Notice the delay between the angle changing vs the PWM value changing due to the DMP (the PWM value changing represents the actual flip occuring).</p>
+
+							<h3>Video 4: Coolest Final Flip with execution time of 1.07s for a distance of 0.5m</h3>
+							<p>Here, I tried setting the ToF threshold to be around 1.6m so it detects a wall earlier and flips earlier.</p>
+							<iframe src="https://drive.google.com/file/d/1ZmbfGPo0-y7H1IkNt29zhr5qhx_CyXTq/preview" width="640" height="480" allow="autoplay"></iframe>
+							<p></p>
+
+							<h2>Blooper</h2>
+							<h3>The best version</h3>
+							<iframe src="https://drive.google.com/file/d/1lBngznaGui9zTEF-87ByuKADgqjso7CG/preview" width="640" height="480" allow="autoplay"></iframe>
+							<p></p>
+							
+							<h3>Mid version</h3>
+							<iframe src="https://drive.google.com/file/d/1lBngznaGui9zTEF-87ByuKADgqjso7CG/preview" width="640" height="480" allow="autoplay"></iframe>
+							<p></p>
+
+							<h2>Reflections</h2>
+							<p>Overall, I found this lab to be extremely fun and exciting to work on. As discussed above, I had a working implementation quite early on, but I wanted to improve the execution time, which is why I spent more time working on it. I know that there are things that I can still work on to improve my stunt but that is for another day.</p>
+							<h2>References</h2>
+							<p>I discussed ideas with Becky and Annabel.</p>
+							<p></p>
 						</div>
 					</section>
 

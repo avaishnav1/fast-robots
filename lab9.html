@@ -47,6 +47,141 @@
 					<section id="main" class="wrapper style2">
 						<div class="inner">
 							<h1 class="major">Lab 9</h1>
+							<h2>Overview</h2>
+							<p>In this lab, I performed closed-loop orientation control using PID in order to map out a room. I placed my robot at five marked points in the lab, where the robot spun on its axis and collected ToF readings which were used to create the complete map. Through this lab, I learned more about mapping, continued exploring PID control, and learned about transformation matrices.</p>
+
+							<h2>Orientation Control</h2>
+							<h3>Code</h3>
+							<p>In order to create a map of the system, I created a MAPPING command which performed PID control on the robot's orientation. As soon as the robot reached around the desired angle (robot's angle is around 0.5 degrees of desired angle), I stopped the motors, collected ToF data, and incremented the desired angle by 10 degrees. By doing so, I took 37 ToF measurements (360/10 = 36 and another at 360 degrees) at each location in the map.</p>
+							<p>Since the robot was moving quite slowly and very small increments, I was able to just use P control to perform this computation. This was especially done to avoid having to tune all three PID parameters based on battery levels, carpet vs tiles, etc. In general, a Kp of 1 (Ki, Kd of 0) worked well for my robot. </p>
+							<p>In order to get the orientation of the robot, I used my DMP code from Lab 6 (orientation control). Since DMP collects angles from -180 to 180 degrees, I added 360 to any DMP angles less than 0 to ensure that I could get data ranging from 0 to 360 degrees, which made control logic easier. My final code is shown below.</p>
+							<figure>
+								<img src="images/lab9_code.png" height="800">
+								<figcaption>Figure 1. Final Mapping code</figcaption>
+							</figure>
+				
+							<h3>Data Collection and Turn Cleanliness</h3>
+							<p>In general, I think my code worked well for this task, as shown in future parts of this report. Since I was using the DMP, I had to ensure that I oriented the robot at the orientation at which the robot was flashed code. This allowed the robot to start at the 0 orientation and execute faster. If I was unable to do so, the first few data points would take time and the result looked like the one below. The angles still converged, but a few data points took longer than expected, which means that the code remained reliable.</p>
+							<figure>
+								<img src="images/lab9_data_sample.png">
+								<figcaption>Figure 2. Slow initial rotation</figcaption>
+							</figure>
+							<p>As seen above, the actual angle was quite close to the expected angle and this was because I set the acceptable error to be 0.5 degrees which is quite small. I later realized that this may have been the reason that certain angles took longer to converge as well. My PWM values ranged from 80 to 120 in general and I sometimes had to tune them to be higher if my battery was low.</p>
+							<h3>On-Axis Spin</h3>
+							<p>Below is a video that shows my robot turning approximately on axis.</p>
+							<iframe src="https://drive.google.com/file/d/1q7h667owXr79xqOL49Ve8GwsXGlZ6_Nd/preview" width="640" height="480" allow="autoplay"></iframe>
+							<p>My robot wasn't able to stay at the same point throughout its rotation, but there were instances at which it was able to rotate on axis for a bit of time. On average, I found that my robot deviated from its initial position by about 4 inches. The maximum deviation was around 8 inches. This was likely due to the tape that I used that make the robot's wheels slip quite often. In a 4mx4m square, this means an average error of 4/154.48 = 2.54% and a maximum error of 8/154.48 = 5.08%.</p>
+
+							<h2>Read-out Distances</h2>
+							<p>For each of the data points at which I collected ToF data, I plot the angle vs time, distance vs time, polar, and transformed plots below. Note that the transformed plots represent the coordinate plane and that the axes are in feet.</p>
+							<h3>Getting Polar Plots</h3>
+							<p>On the python side, after I received the angle, distance, and time graphs from the robot, I used the data to create polar plots. When I collected my data, my robot was pointing in the positive y direction and rotating clockwise. Therefore, I had to invert the angle data (to account for rotation) and add a 90 degree offset to it (to shift to +x-direction). I also converted the distance data from mm to m. Next, I used the matplotlib polar subplot functionality to create a polar graph and formatted it. The final code to do all of this is shown below. </p>
+							<figure>
+								<img src="images/lab9_polar_code.png" height="500">
+								<figcaption>Polar Plotting Code</figcaption>
+							</figure>
+
+							<h3>Transformation Matrices</h3>
+							<p>After I had manipulated my angles such that they were converted from clockwise rotation to counter-clockwise rotation and they were relative to the +x-axis, this data could now be used to convert my polar coordinates into cartesian coordinates. This was done by the sine and cosine parts of the transformation matrix. Since my ToF data was not placed in the center of my robot, I had to measure the offset of the sensor from the center of the robot. I found that the ToF sensor was 50mm away from the robot's center in the x-direction and was in the center of the robot in terms of the y-direction. Lastly, I also multiplied the data by 0.00328 which converts the data in mm to ft, which is what the map is in.</p>
+							<p>The matrices involved in performing this computation are shown in the image below.</p>
+							<figure>
+								<img src="images/lab9_math.png" height="200">
+								<figcaption>Transformation Matrices</figcaption>
+							</figure>
+							<p>The code to perform the transformation is provided below.</p>
+							<figure>
+								<img src="images/lab9_transformation_code.png" height="300">
+								<figcaption>Transformation Matrices Code for (-3,-2). For different points, the x1 and y1 variables were changed.</figcaption>
+							</figure>
+
+							<h3>Results</h3>
+							<h4>(-3, -2)</h4>
+							<figure>
+								<img src="images/lab9_-3_-2_anglevtime.png">
+								<img src="images/lab9_-3_-2_distvtime.png"><p></p>
+								<img src="images/lab9_-3_-2_polar_plot.png" height="410">
+								<img src="images/lab9_-3_-2_transformed.png">
+								<figcaption>Figure 3. Data for (-3, -2)</figcaption>
+							</figure>
+							<p></p>
+
+							<h4>(5, -3)</h4>
+							<figure>
+								<img src="images/lab9_5_-3_anglevtime.png">
+								<img src="images/lab9_5_-3_distvtime.png"><p></p>
+								<img src="images/lab9_5_-3_polar_plot.png" height="410">
+								<img src="images/lab9_5_-3_transformed.png">
+								<figcaption>Figure 4. Data for (5, -3)</figcaption>
+							</figure>
+							<p></p>
+
+							<h4>(0, 3)</h4>
+							<figure>
+								<img src="images/lab9_0_3_anglevtime.png">
+								<img src="images/lab9_0_3_distvtime.png"><p></p>
+								<img src="images/lab9_0_3_polar_plot.png" height="410">
+								<img src="images/lab9_0_3_transformed.png">
+								<figcaption>Figure 5. Data for (0, 3)</figcaption>
+							</figure>
+							<p></p>
+
+							<h4>(5, 3)</h4>
+							<figure>
+								<img src="images/lab9_5_3_anglevtime.png">
+								<img src="images/lab9_5_3_distvtime.png"><p></p>
+								<img src="images/lab9_5_3_polar_plot.png" height="410">
+								<img src="images/lab9_5_3_transformed.png">
+								<figcaption>Figure 6. Data for (5, 3)</figcaption>
+							</figure>
+							<p></p>
+
+							<h4>(0, 0)</h4>
+							<figure>
+								<img src="images/lab9_0_0_anglevtime.png">
+								<img src="images/lab9_0_0_distvtime.png"><p></p>
+								<img src="images/lab9_0_0_polar_plot.png" height="410">
+								<img src="images/lab9_0_0_transformed.png">
+								<figcaption>Figure 7. Data for (0, 0)</figcaption>
+							</figure>
+							<p></p>
+
+							<h3>Data precision</h3>
+							<p>In order to understand how precise my data points were, I collected the (5,-3) data points three times. The results are shown below. Note that the angle and distance vs time graphs are relative to different points in time since the start times were different.</p>
+							<figure>
+								<img src="images/lab9_5_-3_multiple_anglevtime.png">
+								<img src="images/lab9_5_-3_multiple_distvtime.png"><p></p>
+								<img src="images/lab9_5_-3_multiple_polar_plot.png" height="410">
+								<img src="images/lab9_5_-3_multiple_transformed.png">
+								<figcaption>Multiple trials for (5, -3)</figcaption>
+							</figure>
+							<p>Overall, I think that the data collected is decently precise as the overall structure of the walls that is measured and calculated is similar, as seen in the figure above. The points are also clustered together quite well.</p>
+							
+
+							<h2>Merging the Readings</h2>
+							<h3>Uncorrected Data</h3>
+							<p>In Figure 8 below, I collected all of the transformed data and plotted it onto one graph.</p>
+							<figure>
+								<img src="images/lab9_localized_data_noisy.png">
+								<figcaption>Figure 8. Noisy transformed data</figcaption>
+							</figure>
+
+							<h3>Removing Noise</h3>
+							<p>Since my ToF sensor was set to record shorter distances, it did well with the walls nearby but it had some amount of error when recording the walls further away. Furthermore, since there was only one map in our lab, multiple people recorded data at once so there were robots (and sometimes people walking) at various coordinates. Due to these reasons, as seen in figure 8 above, there were a lot of noisy points in the center of the map. Lastly, by the end of the data collection step, my robot's battery was quite low, which is why one of the wheels was not rotating as much; this caused the data collected to be slightly off, which can especially be seen in the (0,0) data. Therefore, I cleaned the noisy data and the result is shown in Figure 9 below.</p>
+							<figure>
+								<img src="images/lab9_localized_data_no_noise.png">
+								<figcaption>Figure 9. Transformed data without noise</figcaption>
+							</figure>
+							<p>In order to clean the data, I essentially created a python script which clusters line segments from a set of data. Then, for each line segment, it removed the outlier datapoints. Doing so ensured that all of the data deletion was performed using a rigorous approach, rather than using my previous knowledge of how the map should look like. I also added the feature that would ensure that the data points that are kept would approximately follow a line with a slope of 0 or a line with a slope of infinity. This ensured that my map would have approximately straight lines.</p>
+
+							<h3>Line-based Map</h3>
+							<p>After cleaning the data, I was able to see a clear pattern of the walls, which I labeled in Figure 10 below. This will be especially useful when performing localization.</p>
+							<figure>
+								<img src="images/lab9_final_mapping.png">
+								<figcaption>Figure 10. Line-based map</figcaption>
+							</figure>
+
+							<h2>References</h2>
+							<p>I discussed implementation ideas with Annabel and Becky. I also referenced Wenyi's website from 2024 and Professor Helbling's transformation matrix slides.</p>
 						</div>
 					</section>
 

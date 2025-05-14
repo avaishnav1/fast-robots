@@ -47,6 +47,35 @@
 					<section id="main" class="wrapper style2">
 						<div class="inner">
 							<h1 class="major">Lab 12</h1>
+							<h2>Report</h2>
+							<object class="pdf" 
+									data=
+						"./pdfs/ECE4160 Lab 12.pdf"
+									width="1050"
+									height="500">
+							</object>
+							<h2>Videos</h2>
+							<h3>Complete Run (no robot touch)</h3>
+							<h4>Video</h4>
+							<iframe src="https://drive.google.com/file/d/1pVZ0nev0VsPJCjD1Ny61NPCyh-VEi1sG/preview" width="640" height="480" allow="autoplay"></iframe>
+
+							<h4>Localization Results</h4>
+							<p>See the end of the video for the localization results. </p>
+
+							<h3>Run with one touch</h3>
+							<h4>Video</h4>
+							<iframe src="https://drive.google.com/file/d/1dVdM-qk9w_LTiuswE3t8JgBcp7ldyGKJ/preview" width="640" height="480" allow="autoplay"></iframe>
+
+							<h4>Localization Results</h4>
+							<p>See the end of the video for the localization results.</p>
+
+							<h3>Almost perfect run</h3>
+							<p>It is noticable that the last few angular PIDs are not accurate in this video. This was a change I had made due to a previous trial in which the BLE suddenly disconnected at (1.524, -0.9144) m. In the next run then, I added a command to re-initialize BLE, but I forgot to update the angles accordingly since the DMP would set 0 degrees in the positive x-direction during the reset, which is not the direction I initialized the DMP in at the start of the run. Apart from this error on my end, I thought that this run deserved to be published to my report.</p>
+							<h4>Video</h4>
+							<iframe src="https://drive.google.com/file/d/1K01JZGJxQh0hCP3YCruL4QBM6gaRhuAr/preview" width="640" height="480" allow="autoplay"></iframe>
+							<h4>Localization Results</h4>
+							<p>See the video for the localization results.</p>
+
 						</div>
 					</section>
 
